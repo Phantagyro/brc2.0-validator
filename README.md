@@ -1,80 +1,130 @@
-**BRC-2.0 Validator CLI**
+**BRC2.0 Validator CLI Tool**
 
-A Python CLI tool to validate BRC-2.0 token inscriptions (`deploy`, `mint`, `transfer`) against JSON Schema with smart validation suggestions.
+**A Python-powered validator and guide for working with BRC-2.0 JSON inscriptions — complete with smart suggestions, vesting simulation, and token gating checks.**
 
-## Features
+---
 
-- Validates BRC-2.0 JSON inscriptions for `deploy`, `mint`, and `transfer` operations.
-- Provides detailed JSON Schema validation errors.
-- Offers smart suggestions and warnings for common mistakes like ticker format and vesting metadata.
-- Supports reading JSON from a file or stdin.
+## 📌 Overview
 
-## Usage
+**BRC-2.0** is the next-generation token protocol built on Bitcoin’s Ordinals and Taproot architecture. It enables programmable token logic such as:
 
-Validate JSON from a file:
+- ✅ Vesting schedules
+- ✅ Token gating
+- ✅ Advanced deploy/mint/transfer operations
+
+This tool helps developers build, test, and debug BRC-2.0 inscriptions before inscribing them — so errors are caught early and behavior is predictable.
+
+---
+
+## ⚙️ Features
+
+- 🔍 **Schema validation** for deploy, mint, and transfer inscriptions
+- ⏳ **Vesting simulation** to preview how tokens unlock over time
+- 🔐 **Token gating validation** (check access rules like required token balance)
+- ⚡ Extensible for custom rules and future BRC-2.0 upgrades
+
+---
+
+## 🚀 Getting Started
 
 ```bash
-python3 brc2_validator.py path/to/inscription.json
+git clone https://github.com/Phantagyro/brc2.0-validator.git
+cd brc2.0-validator
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
 ````
 
-Or via stdin:
+---
 
-```bash
-cat inscription.json | python3 brc2_validator.py
-```
+## 🧪 Example Usage
 
-The tool checks for required fields, formats, and common mistakes and provides actionable warnings.
-
-## Requirements
-
-* Python 3.7+
-* [jsonschema](https://pypi.org/project/jsonschema/)
-
-Install dependencies with:
-
-```bash
-pip install jsonschema
-```
-
-## Example
-
-Here is a sample `deploy` inscription JSON:
+Create a JSON file named `inscription.json`:
 
 ```json
 {
   "p": "brc-2.0",
   "op": "deploy",
-  "tick": "VEST",
+  "tick": "TEST",
   "max": "1000000000",
   "dec": 8,
   "meta": {
     "vesting": true,
     "start": 1720000000,
-    "cliff": 1,
-    "duration": 6
+    "cliff": 2,
+    "duration": 12,
+    "token_gating": {
+      "required_token": "GATE",
+      "min_balance": 1000,
+      "expiry": 2000000000
+    }
   }
 }
 ```
 
-Save it as `inscription.json` and validate with:
+Run the validator:
 
 ```bash
-python3 brc2_validator.py inscription.json
+python3 brc2.0_validator.py inscription.json --timestamp 1750000000
+```
+
+Example output:
+
+```
+✅ JSON schema validation passed.
+🔓 Vesting Simulation at 1750000000: 30% unlocked
+✅ Token gating rules validated.
 ```
 
 ---
 
-## Contributing
+## 🧰 Requirements
 
-Contributions and suggestions are welcome! Feel free to open issues or submit pull requests.
+* Python 3.8+
+* jsonschema
 
-## License
+To install:
 
-MIT License
+```bash
+pip install -r requirements.txt
+```
 
-## Integration
+Contents of `requirements.txt`:
 
-This CLI validator complements [OPI (Open Protocol Indexer)](https://github.com/bestinslot-xyz/OPI), a popular indexer for BRC protocols, by helping developers validate their BRC-2.0 JSON inscriptions before submission.
+```
+jsonschema
+```
 
-Using both tools together can improve ecosystem reliability and developer experience.
+---
+
+## 🙌 Contributing
+
+This tool is open source and evolving. Pull requests are welcome!
+
+* Suggest new features
+* Add support for new BRC-2.0 mechanics
+* Help improve developer tooling for Bitcoin’s smart inscription layer
+
+---
+
+## 📬 Community & Credits
+
+Shoutout to the BRC2.0 and Ordinals ecosystem — especially builders in Fractal, Unisat, and BitOS.
+
+Share your tools and thoughts with:
+
+```
+#BRC20 #BRC2 #OrdinalsDev
+```
+
+---
+
+## 📄 License
+
+This project is open-source and released under the [MIT License](LICENSE).
+
+---
+
+**Maintainer:** [Phantagyro](https://github.com/Phantagyro)
+**Last Updated:** July 2025
 
