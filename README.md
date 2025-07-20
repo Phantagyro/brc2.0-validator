@@ -72,6 +72,3 @@ Contributions and suggestions are welcome! Feel free to open issues or submit pu
 
 MIT License
 
-```
-
-
