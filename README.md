@@ -72,3 +72,9 @@ Contributions and suggestions are welcome! Feel free to open issues or submit pu
 
 MIT License
 
+## Integration
+
+This CLI validator complements [OPI (Open Protocol Indexer)](https://github.com/bestinslot-xyz/OPI), a popular indexer for BRC protocols, by helping developers validate their BRC-2.0 JSON inscriptions before submission.
+
+Using both tools together can improve ecosystem reliability and developer experience.
+
