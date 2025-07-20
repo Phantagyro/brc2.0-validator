@@ -1,6 +1,3 @@
-Sure! Here’s a clean, complete `README.md` for your `brc2.0-validator` repo including the description, usage, and what the tool does:
-
-````markdown
 # BRC-2.0 Validator CLI
 
 A Python CLI tool to validate BRC-2.0 token inscriptions (`deploy`, `mint`, `transfer`) against JSON Schema with smart validation suggestions.
