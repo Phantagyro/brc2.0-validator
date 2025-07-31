@@ -1,130 +1,116 @@
-**BRC2.0 Validator CLI Tool**
+```markdown
+# BRC2.0 Validator CLI Tool
 
-**A Python-powered validator and guide for working with BRC-2.0 JSON inscriptions — complete with smart suggestions, vesting simulation, and token gating checks.**
+**A Python-powered validator for official BRC-20/BRC2.0 JSON inscriptions — ensuring compliance with indexer standards.**
 
 ---
 
 ## 📌 Overview
 
-**BRC-2.0** is the next-generation token protocol built on Bitcoin’s Ordinals and Taproot architecture. It enables programmable token logic such as:
+**BRC2.0** is built on the proven BRC-20 standard with enhanced programmable features. This validator ensures your inscriptions follow the official specification and will be properly indexed.
 
-- ✅ Vesting schedules
-- ✅ Token gating
-- ✅ Advanced deploy/mint/transfer operations
-
-This tool helps developers build, test, and debug BRC-2.0 inscriptions before inscribing them — so errors are caught early and behavior is predictable.
-
----
-
-## ⚙️ Features
-
-- 🔍 **Schema validation** for deploy, mint, and transfer inscriptions
-- ⏳ **Vesting simulation** to preview how tokens unlock over time
-- 🔐 **Token gating validation** (check access rules like required token balance)
-- ⚡ Extensible for custom rules and future BRC-2.0 upgrades
+**Key Features:**
+- ✅ Official BRC-20/BRC2.0 schema validation  
+- ✅ Support for 4-byte, 5-byte, and 6-byte tickers
+- ✅ Validates `deploy`, `mint`, `transfer`, `call`, `transact`, `withdraw` operations
+- ✅ Snipe protection validation for 6-byte tickers
+- ✅ Strict mode for production validation
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Installation
 
 ```bash
 git clone https://github.com/Phantagyro/brc2.0-validator.git
 cd brc2.0-validator
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-````
+pip install jsonschema
+```
 
 ---
 
-## 🧪 Example Usage
+## 🧪 Usage
 
-Create a JSON file named `inscription.json`:
+### Basic validation:
+```bash
+python3 brc2_validator.py inscription.json
+```
 
+### Strict mode (warnings as errors):
+```bash
+python3 brc2_validator.py inscription.json --strict
+```
+
+### From stdin:
+```bash
+cat inscription.json | python3 brc2_validator.py
+```
+
+---
+
+## 📋 Supported Operations
+
+| Operation | Description | Required Fields |
+|-----------|-------------|----------------|
+| `deploy` | Deploy new token | `p`, `op`, `tick`, `max`, `lim` |
+| `mint` | Mint tokens | `p`, `op`, `tick`, `amt` |
+| `transfer` | Transfer tokens | `p`, `op`, `tick`, `amt` |
+| `call` | Call function | `p`, `op`, `tick`, `func` |
+| `transact` | Execute transaction | `p`, `op`, `tick` |
+| `withdraw` | Withdraw tokens | `p`, `op`, `tick`, `amt` |
+
+---
+
+## 🎯 Ticker Rules
+
+- **4-byte tickers**: Standard format (e.g., `TEST`, `COIN`)
+- **5-byte tickers**: Self-mint only (e.g., `TOKEN`) 
+- **6-byte tickers**: With snipe protection (e.g., `MyToken`)
+
+---
+
+## 📝 Example
+
+**Deploy inscription:**
 ```json
 {
-  "p": "brc-2.0",
+  "p": "brc-20",
   "op": "deploy",
-  "tick": "TEST",
+  "tick": "TEST", 
   "max": "1000000000",
-  "dec": 8,
-  "meta": {
-    "vesting": true,
-    "start": 1720000000,
-    "cliff": 2,
-    "duration": 12,
-    "token_gating": {
-      "required_token": "GATE",
-      "min_balance": 1000,
-      "expiry": 2000000000
-    }
-  }
+  "lim": "10000",
+  "dec": "8"
 }
 ```
 
-Run the validator:
-
-```bash
-python3 brc2.0_validator.py inscription.json --timestamp 1750000000
+**Validation result:**
 ```
-
-Example output:
-
-```
-✅ JSON schema validation passed.
-🔓 Vesting Simulation at 1750000000: 30% unlocked
-✅ Token gating rules validated.
+✅ JSON Schema validation passed.
+✅ All validations passed. Inscription follows official BRC2.0 specification.
 ```
 
 ---
 
-## 🧰 Requirements
+## 🤝 Contributing
 
-* Python 3.8+
-* jsonschema
-
-To install:
-
-```bash
-pip install -r requirements.txt
-```
-
-Contents of `requirements.txt`:
-
-```
-jsonschema
-```
+This validator follows the official BRC2.0 specification. Pull requests welcome for:
+- Bug fixes
+- Performance improvements  
+- Additional validation rules
 
 ---
 
-## 🙌 Contributing
+## 🔗 References
 
-This tool is open source and evolving. Pull requests are welcome!
-
-* Suggest new features
-* Add support for new BRC-2.0 mechanics
-* Help improve developer tooling for Bitcoin’s smart inscription layer
-
----
-
-## 📬 Community & Credits
-
-Shoutout to the BRC2.0 and Ordinals ecosystem — especially builders in Fractal, Unisat, and BitOS.
-
-Share your tools and thoughts with:
-
-```
-#BRC20 #BRC2 #OrdinalsDev
-```
+- [Official BRC-20 Documentation](https://layer1.gitbook.io/layer1-foundation/protocols/brc-20)
+- [6-byte Ticker Proposal](https://github.com/bestinslot-xyz/OPI/pull/67)
+- [BRC2.0 Enhancement Proposal](https://docs.bestinslot.xyz/brc2.0)
 
 ---
 
 ## 📄 License
 
-This project is open-source and released under the [MIT License](LICENSE).
+MIT License
 
----
-
-**Maintainer:** [Phantagyro](https://github.com/Phantagyro)
+**Maintainer:** [Phantagyro](https://github.com/Phantagyro)  
 **Last Updated:** July 2025
 
